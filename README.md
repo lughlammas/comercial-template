@@ -141,6 +141,28 @@ Este repositório é a **base comercial**. Dá para:
 
 Leia [`docs/CUSTOMIZATION.md`](docs/CUSTOMIZATION.md) e [`docs/CLONE_PLAYBOOK.md`](docs/CLONE_PLAYBOOK.md). O CTA da landing aponta para `contato@exemplo.local` — troque pelo seu canal.
 
+
+## Como este repositório foi construído
+
+Este template foi entregue por **coordenação de agentes de IA** (assistants), sob direção humana — não por um time humano inventado.
+
+| Papel | Responsabilidade |
+|-------|------------------|
+| **Coordenador** | Escopo comercial, prioridades, critério de aceite |
+| **Agente produto** | Landing, proposta de valor, tabela de preços placeholder |
+| **Agente código** | Auth, CRUD, PDF, Prisma, Docker, seed |
+| **Agente QA** | Fluxo install → seed → build |
+| **Agente docs** | README, `CLONE_PLAYBOOK`, `CUSTOMIZATION` |
+
+### Fluxo comercial pretendido
+
+1. **Template** — base estável (este repo).
+2. **Clone / fork** — novo produto (recibo, contrato, orçamento) via [`docs/CLONE_PLAYBOOK.md`](docs/CLONE_PLAYBOOK.md).
+3. **Personalização** — marca, textos, schema, deploy para o cliente.
+4. **Receita** — instalação + configuração + manutenção.
+
+Portfolio do coordenador: [lughlammas.github.io](https://lughlammas.github.io) · perfil [github.com/lughlammas](https://github.com/lughlammas).
+
 ## Licença
 
-Uso interno e forks do time. Ajuste esta seção se for publicar o template.
+Template aberto para estudo e base comercial. Ajuste a licença se redistribuir sob outros termos.
