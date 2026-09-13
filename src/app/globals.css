@@ -1,0 +1,123 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f4efe6;
+  --foreground: #1a1d23;
+  --ink: #12141a;
+  --paper: #fffdf8;
+  --muted: #5c6170;
+  --line: #e4dccb;
+  --accent: #c4a35a;
+  --accent-ink: #1a1508;
+  --navy: #1b2a4a;
+  --navy-deep: #10182b;
+  --success: #2f6f4e;
+  --danger: #a33b3b;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-navy: var(--navy);
+  --color-navy-deep: var(--navy-deep);
+  --color-success: var(--success);
+  --color-danger: var(--danger);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-newsreader);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+.font-serif {
+  font-family: var(--font-newsreader), ui-serif, Georgia, serif;
+}
+
+.card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 0 rgba(18, 20, 26, 0.04);
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.input {
+  width: 100%;
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: 0.7rem;
+  padding: 0.65rem 0.8rem;
+  color: var(--ink);
+  outline: none;
+}
+
+.input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(196, 163, 90, 0.2);
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--navy);
+  color: #fff;
+  padding: 0.7rem 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: background 0.15s ease;
+}
+
+.btn-primary:hover {
+  background: #24365f;
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+}
+
+.btn-accent {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  padding: 0.7rem 1.2rem;
+  font-weight: 600;
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: transparent;
+  padding: 0.55rem 0.95rem;
+  font-size: 0.875rem;
+  color: var(--ink);
+}
+
+.btn-ghost:hover {
+  background: rgba(27, 42, 74, 0.04);
+}

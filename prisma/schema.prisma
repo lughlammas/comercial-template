@@ -1,0 +1,80 @@
+// =============================================================================
+// Schema do template Comercial
+// Dev: SQLite (arquivo prisma/dev.db) — simples, zero infra.
+// Produção: PostgreSQL. Troque o bloco datasource para:
+//
+//   datasource db {
+//     provider = "postgresql"
+//     url      = env("DATABASE_URL")
+//   }
+//
+// e a DATABASE_URL para:
+//   postgresql://USER:PASSWORD@HOST:5432/comercial?schema=public
+//
+// Depois: npx prisma migrate dev --name init
+// =============================================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String     @id @default(cuid())
+  email        String     @unique
+  passwordHash String
+  name         String
+  companyName  String     @default("Sua Empresa")
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  clients      Client[]
+  proposals    Proposal[]
+}
+
+model Client {
+  id        String     @id @default(cuid())
+  userId    String
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
+  email     String?
+  company   String?
+  phone     String?
+  notes     String?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  proposals Proposal[]
+
+  @@index([userId])
+}
+
+model Proposal {
+  id        String         @id @default(cuid())
+  userId    String
+  user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  clientId  String
+  client    Client         @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  title     String
+  notes     String?
+  status    String         @default("rascunho")
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  items     ProposalItem[]
+
+  @@index([userId])
+  @@index([clientId])
+}
+
+model ProposalItem {
+  id          String   @id @default(cuid())
+  proposalId  String
+  proposal    Proposal @relation(fields: [proposalId], references: [id], onDelete: Cascade)
+  description String
+  quantity    Float
+  unitPrice   Float
+
+  @@index([proposalId])
+}
