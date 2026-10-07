@@ -1,42 +1,28 @@
 # Comercial
 
-Template SaaS reutilizável para **micro-ferramentas B2B**. O primeiro recorte é um **gerador de propostas comerciais**: clientes, itens, totais e PDF.
+A full-stack Next.js application for client records and commercial proposals, with authentication, user-scoped persistence, item totals, and server-generated PDF downloads.
 
-Use como base. Depois clone para recibos, contratos ou orçamentos — o playbook está em [`docs/CLONE_PLAYBOOK.md`](docs/CLONE_PLAYBOOK.md).
+**Stack:** React, Next.js App Router, TypeScript, Tailwind CSS, NextAuth credentials/JWT, Prisma with SQLite, `@react-pdf/renderer`, and Docker configuration.
 
-## O que já vem pronto
+**Status:** version 1.0.0 in `package.json`; a demonstration application with a Brazilian Portuguese UI and synthetic seed data. Authentication, persistence and PDF routes are implemented. No automated test suite or GitHub CI workflow is included, and no production deployment or adoption is claimed.
 
-- Landing comercial (hero, recursos, tabela de preços placeholder, CTA de personalização)
-- Autenticação por e-mail e senha (NextAuth, sessão JWT)
-- Painel protegido
-- CRUD mínimo de **clientes** e **propostas** (criar, listar, ver)
-- Formulário com nome do cliente, título, itens (descrição, qtd, preço) e totais
-- Geração e download de PDF da proposta
-- Prisma + SQLite no desenvolvimento (comentários no schema para Postgres)
-- Docker e `.env.example`
+By Guilherme Cavalcanti (lughlammas), maintained within **ARBOCK LABS**, an independent software and applied-AI lab currently being structured.
 
-Interface em **português do Brasil**.
+## Implementation
 
-## Demo
+- Email/password registration and login, bcrypt password hashing, and JWT sessions.
+- Protected dashboard and client/proposal creation, listing and detail views.
+- User-scoped queries and ownership checks for proposal creation and PDF downloads.
+- Proposal line items, quantities, prices and totals.
+- PDF rendering on the server with `@react-pdf/renderer`.
+- Prisma models for `User`, `Client`, `Proposal` and `ProposalItem`.
+- Local SQLite setup, sample-data seed and a Dockerfile.
 
-Dados de **exemplo** — não use em produção.
+This repository demonstrates application workflows and integration; production security and deployment were not validated in this presentation pass.
 
-| Campo  | Valor                   |
-|--------|-------------------------|
-| E-mail | `demo@comercial.local`  |
-| Senha  | `demo1234`              |
+## Run locally
 
-A seed cria três clientes e três propostas fictícias (Ateliê Norte, Mercado Aurora, Clínica Verde).
-
-## Stack
-
-- Next.js (App Router) + TypeScript + Tailwind CSS
-- NextAuth Credentials + JWT
-- Prisma + SQLite (`prisma/dev.db`)
-- PDF com `@react-pdf/renderer`
-- Node 20+
-
-## Como rodar
+Use Node.js 20+ and npm.
 
 ```bash
 git clone https://github.com/lughlammas/comercial-template.git
@@ -48,121 +34,41 @@ npm run seed
 npm run dev
 ```
 
-Abra [http://localhost:3000](http://localhost:3000) e entre com a demo.
+Configure a locally generated `NEXTAUTH_SECRET` in `.env`, then open [localhost:3000](http://localhost:3000). The seed creates a demo account (`demo@comercial.local`, password `demo1234`) and fictional clients/proposals. These are public example values for local development only; do not deploy the seeded account unchanged.
 
-A sequência pedida no critério de aceite:
+The seed resets the demo data. Run it only against a database intended for demonstration.
 
-```bash
-npm install && npx prisma db push && npm run seed && npm run build
-```
-
-### Scripts
-
-| Script        | Função                                      |
-|---------------|---------------------------------------------|
-| `npm run dev` | Servidor de desenvolvimento                 |
-| `npm run build` | Build de produção                         |
-| `npm start`   | Sobe o build (`next start`)                 |
-| `npm run db:push` | Aplica o schema no banco (`prisma db push`) |
-| `npm run seed` | Recria o usuário demo e os dados de exemplo |
-
-`postinstall` já roda `prisma generate`.
-
-## Variáveis de ambiente
-
-Veja `.env.example`.
-
-| Variável          | Uso                                              |
-|-------------------|--------------------------------------------------|
-| `DATABASE_URL`    | SQLite: `file:./dev.db` (relativo a `prisma/`)   |
-| `NEXTAUTH_SECRET` | Segredo JWT (gere outro em produção)             |
-| `NEXTAUTH_URL`    | URL pública, ex. `http://localhost:3000`         |
-
-Em produção com **Postgres**, troque o `provider` em `prisma/schema.prisma` (há um bloco comentado) e use:
-
-```
-DATABASE_URL="postgresql://USER:PASSWORD@HOST:5432/comercial?schema=public"
-```
-
-## Deploy
-
-1. Suba o código (Vercel, Railway, Fly, VPS + Docker).
-2. Defina `NEXTAUTH_SECRET`, `NEXTAUTH_URL` e `DATABASE_URL`.
-3. Rode `npx prisma db push` (ou `migrate deploy` quando houver migrations) e `npm run seed` só se quiser a demo.
-4. `npm run build && npm start`, ou a imagem Docker.
-
-### Docker
+## Build and configuration
 
 ```bash
-docker build -t comercial-template .
-docker run --rm -p 3000:3000 \
-  -e NEXTAUTH_SECRET=um-segredo-longo \
-  -e NEXTAUTH_URL=http://localhost:3000 \
-  -e DATABASE_URL=file:./dev.db \
-  comercial-template
+npm run build
+npm start
 ```
 
-SQLite dentro do container é só para smoke test. Em produção, use Postgres e um volume ou um banco gerenciado.
+`npm run db:push` applies the Prisma schema; `postinstall` generates the Prisma client. See [.env.example](.env.example) for `DATABASE_URL`, `NEXTAUTH_SECRET` and `NEXTAUTH_URL`.
 
-## Caminhos úteis
+SQLite is the configured database. PostgreSQL is a commented schema alternative, not a separately validated deployment. The [Dockerfile](Dockerfile) provides container configuration; persistent storage and production environment values need to be configured for deployment. No hosted demo or release is currently linked.
 
-| Caminho | Conteúdo |
-|---------|----------|
-| `prisma/schema.prisma` | Modelos User, Client, Proposal, ProposalItem |
-| `prisma/seed.ts` | Demo `demo@comercial.local` |
-| `src/lib/auth.ts` | NextAuth credentials + JWT |
-| `src/app/page.tsx` | Landing |
-| `src/app/(app)/` | Painel, clientes, propostas |
-| `src/components/proposal-form.tsx` | Formulário de itens |
-| `src/components/proposal-pdf.tsx` | Layout do PDF |
-| `src/app/api/propostas/[id]/pdf/route.ts` | Download do PDF |
-| `docs/CUSTOMIZATION.md` | Como trocar marca, textos e cores |
-| `docs/CLONE_PLAYBOOK.md` | Como forkear para outro produto |
-| `screenshots/` | Pasta para prints do produto |
+## Source map
 
-## Tabela de preços (placeholder)
+| Path | Purpose |
+|---|---|
+| [prisma/schema.prisma](prisma/schema.prisma) | User, client, proposal and item models |
+| [prisma/seed.ts](prisma/seed.ts) | Synthetic demo data |
+| [src/lib/auth.ts](src/lib/auth.ts) | Credentials authentication and JWT sessions |
+| [src/lib/actions.ts](src/lib/actions.ts) | Registration, client and proposal server actions |
+| [src/app/(app)/](src/app/%28app%29/) | Protected application pages |
+| [src/components/proposal-pdf.tsx](src/components/proposal-pdf.tsx) | PDF layout |
+| [PDF route](src/app/api/propostas/%5Bid%5D/pdf/route.tsx) | Authenticated, user-scoped PDF download |
 
-Números ilustrativos — ajuste à sua oferta. Nada aqui cobra de fato.
+## Customization and development process
 
-| Plano     | Preço        | Para quem                         |
-|-----------|--------------|-----------------------------------|
-| Starter   | R$ 0         | Uso interno, 1 usuário            |
-| Pro       | R$ 97/mês    | Equipe pequena, marca própria     |
-| Business  | Sob consulta | White-label e personalização      |
+[Customization notes](docs/CUSTOMIZATION.md) and the [clone playbook](docs/CLONE_PLAYBOOK.md) describe adapting branding and workflows. The existing landing page contains demonstration pricing and contact placeholders; no billing implementation is claimed.
 
-## Pitch de personalização
+The project records an AI-assisted development process under human direction across product, implementation, QA and documentation. The repository provides application source, not an executable agent-orchestration platform.
 
-Este repositório é a **base comercial**. Dá para:
+## License
 
-- Colocar a sua marca, domínio e tom de voz
-- Trocar “proposta” por recibo, contrato ou orçamento
-- Ligar em Postgres, e-mail e cobrança quando fizer sentido
-- Entregar um micro-SaaS pronto para o escritório do cliente
+No `LICENSE` file is currently present. Redistribution and commercial-use terms require clarification; this presentation pass does not assign a license.
 
-Leia [`docs/CUSTOMIZATION.md`](docs/CUSTOMIZATION.md) e [`docs/CLONE_PLAYBOOK.md`](docs/CLONE_PLAYBOOK.md). O CTA da landing aponta para `contato@exemplo.local` — troque pelo seu canal.
-
-
-## Como este repositório foi construído
-
-Este template foi entregue por **coordenação de agentes de IA** (assistants), sob direção humana — não por um time humano inventado.
-
-| Papel | Responsabilidade |
-|-------|------------------|
-| **Coordenador** | Escopo comercial, prioridades, critério de aceite |
-| **Agente produto** | Landing, proposta de valor, tabela de preços placeholder |
-| **Agente código** | Auth, CRUD, PDF, Prisma, Docker, seed |
-| **Agente QA** | Fluxo install → seed → build |
-| **Agente docs** | README, `CLONE_PLAYBOOK`, `CUSTOMIZATION` |
-
-### Fluxo comercial pretendido
-
-1. **Template** — base estável (este repo).
-2. **Clone / fork** — novo produto (recibo, contrato, orçamento) via [`docs/CLONE_PLAYBOOK.md`](docs/CLONE_PLAYBOOK.md).
-3. **Personalização** — marca, textos, schema, deploy para o cliente.
-4. **Receita** — instalação + configuração + manutenção.
-
-Portfolio do coordenador: [lughlammas.github.io](https://lughlammas.github.io) · perfil [github.com/lughlammas](https://github.com/lughlammas).
-
-## Licença
-
-Template aberto para estudo e base comercial. Ajuste a licença se redistribuir sob outros termos.
+Maintained by [Guilherme Cavalcanti](https://github.com/lughlammas) · [Portfolio](https://lughlammas.github.io).
