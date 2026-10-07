@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo, useState } from "react";
 import { createProposal } from "@/lib/actions";
 import { formatBRL, lineTotal, sumItems } from "@/lib/money";
@@ -54,9 +55,9 @@ export function ProposalForm({ clients }: { clients: ClientOption[] }) {
         <p className="text-muted">
           Cadastre um cliente antes de criar a primeira proposta.
         </p>
-        <a href="/clientes/novo" className="btn-primary mt-4 inline-flex">
+        <Link href="/clientes/novo" className="btn-primary mt-4 inline-flex">
           Novo cliente
-        </a>
+        </Link>
       </div>
     );
   }
