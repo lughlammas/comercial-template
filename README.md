@@ -4,7 +4,7 @@ A full-stack Next.js application for client records and commercial proposals, wi
 
 **Stack:** React, Next.js App Router, TypeScript, Tailwind CSS, NextAuth credentials/JWT, Prisma with SQLite, `@react-pdf/renderer`, and Docker configuration.
 
-**Status:** version 1.0.0 in `package.json`; a demonstration application with a Brazilian Portuguese UI and synthetic seed data. Authentication, persistence and PDF routes are implemented. No automated test suite or GitHub CI workflow is included, and no production deployment or adoption is claimed.
+**Status:** version 1.0.0 in `package.json`; a demonstration application with a Brazilian Portuguese UI and synthetic seed data. Authentication, persistence and PDF routes are implemented. Vitest unit tests and a browser smoke test are included; no production deployment or adoption is claimed.
 
 By Guilherme Cavalcanti (lughlammas), maintained within **ARBOCK LABS**, an independent software and applied-AI lab currently being structured.
 
@@ -20,9 +20,18 @@ By Guilherme Cavalcanti (lughlammas), maintained within **ARBOCK LABS**, an inde
 
 This repository demonstrates application workflows and integration; production security and deployment were not validated in this presentation pass.
 
+## Walkthrough and verification
+
+The [product walkthrough](docs/PRODUCT_WALKTHROUGH.md) covers the architecture, the user flow with [real local screenshots](docs/screenshots/), key source files, how to verify the app, and its current limitations.
+
+```bash
+npm run typecheck && npm run lint && npm test   # static checks and 24 unit tests
+npm run test:e2e                                # browser smoke test against a running instance
+```
+
 ## Run locally
 
-Use Node.js 20+ and npm.
+Use Node.js 20.19+ and npm.
 
 ```bash
 git clone https://github.com/lughlammas/comercial-template.git
