@@ -125,7 +125,7 @@ If `CHROME_PATH` is not set, the script uses the Chromium installed by `npx play
 
 - **No hosted demo or deployment.** Only local runs were verified.
 - **Docker image not verified.** Docker was not available in the verification environment. The [`Dockerfile`](../Dockerfile) copies `/app/public`, but the repository has no `public/` directory, so that step is expected to fail until the directory exists or the line is removed.
-- **Dependency advisories.** On 2026-10-07, `npm audit` on the existing lockfile reported 12 advisories: 1 critical in `next` 16.3.5, fixed in 16.4.0, and 11 high, mostly in lint and Prisma CLI tooling. The framework was not upgraded in this pass.
+- **Dependency advisories.** On 2026-10-07, `npm audit` on the existing lockfile reported 12 advisories: 1 critical in `next` 16.3.5, fixed in 16.4.0, and 11 high, mostly in lint and Prisma CLI tooling. That describes the initial audit snapshot: Next.js was subsequently updated to 16.3.8 in commit `0e9e5db`. The earlier advisory count is not a fresh audit of that updated lockfile.
 - **Feature scope.**
   - Clients and proposals cannot be edited or deleted.
   - Proposal status cannot be changed in the UI; new proposals are always `rascunho` (draft), and only the seed creates other statuses.
