@@ -1,5 +1,7 @@
 # Comercial
 
+[![Web validation](https://github.com/lughlammas/comercial-template/actions/workflows/ci.yml/badge.svg)](https://github.com/lughlammas/comercial-template/actions/workflows/ci.yml)
+
 A full-stack Next.js application for client records and commercial proposals, with authentication, user-scoped persistence, item totals, and server-generated PDF downloads.
 
 **Stack:** React, Next.js App Router, TypeScript, Tailwind CSS, NextAuth credentials/JWT, Prisma with SQLite, `@react-pdf/renderer`, and Docker configuration.
@@ -28,6 +30,8 @@ The [product walkthrough](docs/PRODUCT_WALKTHROUGH.md) covers the architecture, 
 npm run typecheck && npm run lint && npm test   # static checks and 24 unit tests
 npm run test:e2e                                # browser smoke test against a running instance
 ```
+
+The same checks run in [GitHub Actions](.github/workflows/ci.yml) on every push to `main`: install, lint, unit tests, production build, typecheck, and the browser smoke test against the production build.
 
 ## Run locally
 

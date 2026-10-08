@@ -102,6 +102,8 @@ npm start
 | `npm run build` | Production build | pass |
 | `npm run test:e2e` | Browser smoke test against a running instance ([`scripts/e2e-smoke.mjs`](../scripts/e2e-smoke.mjs)) | 13/13 checks pass |
 
+These checks also run in GitHub Actions ([`.github/workflows/ci.yml`](../.github/workflows/ci.yml)) on every push to `main`. The first run, [#37709036278](https://github.com/lughlammas/comercial-template/actions/runs/37709036278) on commit `c710a4b` with Next.js 16.3.8, passed with 24/24 unit tests and 13/13 browser checks.
+
 Running the browser smoke test:
 
 ```bash
@@ -125,7 +127,7 @@ If `CHROME_PATH` is not set, the script uses the Chromium installed by `npx play
 
 - **No hosted demo or deployment.** Only local runs were verified.
 - **Docker image not verified.** Docker was not available in the verification environment. The [`Dockerfile`](../Dockerfile) copies `/app/public`, but the repository has no `public/` directory, so that step is expected to fail until the directory exists or the line is removed.
-- **Dependency advisories.** On 2026-10-07, `npm audit` on the existing lockfile reported 12 advisories: 1 critical in `next` 16.3.5, fixed in 16.4.0, and 11 high, mostly in lint and Prisma CLI tooling. That describes the initial audit snapshot: Next.js was subsequently updated to 16.3.8 in commit `0e9e5db`. The earlier advisory count is not a fresh audit of that updated lockfile.
+- **Dependency advisories.** The initial 2026-10-07 audit of `next` 16.3.5 reported 1 critical advisory (GHSA-vcvr-r3jv-pc5j) and 11 high. Next.js was updated to 16.3.8 in commit `0e9e5db`, which clears every `next` advisory. A fresh `npm audit` after that update reports 0 critical and 11 high. These are in lint tooling (`eslint-config-next` and `brace-expansion` chains), the Prisma CLI (`deepmerge-ts`), build-time `source-map-js`, and the optional `sharp` image dependency. The app does not use `next/image`.
 - **Feature scope.**
   - Clients and proposals cannot be edited or deleted.
   - Proposal status cannot be changed in the UI; new proposals are always `rascunho` (draft), and only the seed creates other statuses.
